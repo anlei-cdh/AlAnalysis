@@ -11,26 +11,11 @@
 
     <artifactId>AlSpark</artifactId>
 
-    <repositories>
-        <repository>
-            <id>maven-hadoop</id>
-            <url>https://repository.cloudera.com/content/repositories/releases/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.10</artifactId>
             <version>1.6.2</version>
-            <!--
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.hadoop</groupId>
-                    <artifactId>hadoop-common</artifactId>
-                </exclusion>
-            </exclusions>
-            -->
         </dependency>
 
         <dependency>
@@ -49,18 +34,6 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-streaming-kafka_2.10</artifactId>
             <version>1.6.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.storm</groupId>
-            <artifactId>storm-core</artifactId>
-            <version>0.9.7</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.storm</groupId>
-            <artifactId>storm-kafka</artifactId>
-            <version>0.9.7</version>
         </dependency>
 
         <dependency>
@@ -91,31 +64,6 @@
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
             <version>1.10</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.5</version>
-        </dependency>
-
-        <!--
-        <dependency>
-            <groupId>org.apache.hive</groupId>
-            <artifactId>hive-jdbc</artifactId>
-            <version>1.2.1</version>
-        </dependency>
-        -->
-        <dependency>
-            <groupId>org.apache.hive</groupId>
-            <artifactId>hive-jdbc</artifactId>
-            <version>1.1.0-cdh5.9.0</version>
         </dependency>
 
         <dependency>
