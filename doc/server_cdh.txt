@@ -1,0 +1,10 @@
+===flume===
+#flume日志
+flume-ng avro-client -H cdh01 -p 9999 -F /logs/aura.log
+==kafka===
+#kafka创建topic
+/opt/cloudera/parcels/KAFKA/bin/kafka-topics --create --zookeeper cdh01:2181,cdh02:2181,cdh03:2181 --replication-factor 1 --partitions 1 --topic aura
+#kafka查看topic
+/opt/cloudera/parcels/KAFKA/bin/kafka-topics --list --zookeeper cdh01:2181,cdh02:2181,cdh03:2181
+#kafka创建consumer
+/opt/cloudera/parcels/KAFKA/bin/kafka-console-consumer --zookeeper cdh01:2181,cdh02:2181,cdh03:2181 --topic aura --from-beginning

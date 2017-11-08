@@ -1,0 +1,15 @@
+===flume===
+#flume启动(agent1)
+flume-ng agent -c conf -n agent1 -f conf/aura-conf.properties -Dflume.root.logger=INFO,console &
+#flume日志
+flume-ng avro-client --conf conf -H ha01 -p 41414 -F /logs/aura.log
+==kafka===
+#kafka创建topic
+kafka-topics.sh --create --zookeeper ha01:2181,ha02:2181,ha03:2181 --replication-factor 1 --partitions 1 --topic aura
+#kafka查看topic
+kafka-topics.sh --list --zookeeper ha01:2181,ha02:2181,ha03:2181
+#kafka创建consumer
+kafka-console-consumer.sh --zookeeper ha01:2181,ha02:2181,ha03:2181 --topic aura --from-beginning
+===hive===
+#启动hiveserver2
+hive --service hiveserver2

@@ -1,7 +1,9 @@
 package com.al.spark.mllib
 
 import com.al.config.Config
-import com.al.util.SparkUtil
+import com.al.dao.TrainingDao
+import com.al.entity.Training
+import com.al.util.{FileUtil, SparkUtil}
 import org.apache.spark.mllib.classification.SVMModel
 import org.apache.spark.mllib.feature.HashingTF
 

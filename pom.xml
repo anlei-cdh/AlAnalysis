@@ -30,6 +30,14 @@
         <jedis.version>2.8.2</jedis.version>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.10</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
