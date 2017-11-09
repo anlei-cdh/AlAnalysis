@@ -19,7 +19,7 @@ public class StormTopology {
 		TopologyBuilder topologyBuilder = new TopologyBuilder();
 		BrokerHosts hosts = new ZkHosts(com.al.config.Config.zkHosts);
 		String topic = com.al.config.Config.topic;
-		String zkRoot = "/aura";
+		String zkRoot = "/al";
 		String id = UUID.randomUUID().toString();
 		SpoutConfig spoutConf = new SpoutConfig(hosts, topic, zkRoot, id);
 		
