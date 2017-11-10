@@ -107,7 +107,7 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <compilerArguments>
-                        <extdirs>lib</extdirs>
+                        <extdirs>${project.basedir}/lib</extdirs>
                     </compilerArguments>
                 </configuration>
             </plugin>
