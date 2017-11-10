@@ -39,6 +39,7 @@
 
     <build>
         <plugins>
+            <!--
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.3</version>
@@ -59,6 +60,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
 
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -81,6 +83,7 @@
                         </goals>
                     </execution>
                 </executions>
+                <!--
                 <configuration>
                     <scalaVersion>${scala.version}</scalaVersion>
                     <recompileMode>incremental</recompileMode>
@@ -102,6 +105,7 @@
                         <javacArg>-Xlint:all,-serial,-path</javacArg>
                     </javacArgs>
                 </configuration>
+                -->
             </plugin>
 
         </plugins>
