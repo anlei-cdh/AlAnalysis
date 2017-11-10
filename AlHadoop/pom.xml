@@ -108,6 +108,9 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <compilerArguments>
+                        <extdirs>lib</extdirs>
+                    </compilerArguments>
                 </configuration>
             </plugin>
 
