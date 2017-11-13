@@ -1,4 +1,4 @@
-USE `aura`;
+USE `al`;
 
 SET NAMES utf8;
 

@@ -1,6 +1,6 @@
 ADD JAR /jar/json-serde-1.3-jar-with-dependencies.jar;
 
-CREATE EXTERNAL TABLE aura (
+CREATE EXTERNAL TABLE al (
 act STRING,
 ts BIGINT,
 ip BIGINT,
@@ -34,26 +34,26 @@ day INT
 )
 ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
 STORED AS textfile
-LOCATION '/logs/aura';
+LOCATION '/logs/al';
 
-ALTER TABLE aura ADD PARTITION(`day`=20161201);
-ALTER TABLE aura ADD PARTITION(`day`=20161202);
-ALTER TABLE aura ADD PARTITION(`day`=20161203);
-ALTER TABLE aura ADD PARTITION(`day`=20161204);
-ALTER TABLE aura ADD PARTITION(`day`=20161205);
-ALTER TABLE aura ADD PARTITION(`day`=20161206);
-ALTER TABLE aura ADD PARTITION(`day`=20161207);
--- ALTER TABLE aura PARTITION(`day`=20161201) SET LOCATION '/logs/aura/20161201/';
+ALTER TABLE al ADD PARTITION(`day`=20161201);
+ALTER TABLE al ADD PARTITION(`day`=20161202);
+ALTER TABLE al ADD PARTITION(`day`=20161203);
+ALTER TABLE al ADD PARTITION(`day`=20161204);
+ALTER TABLE al ADD PARTITION(`day`=20161205);
+ALTER TABLE al ADD PARTITION(`day`=20161206);
+ALTER TABLE al ADD PARTITION(`day`=20161207);
+-- ALTER TABLE al PARTITION(`day`=20161201) SET LOCATION '/logs/al/20161201/';
 
-hdfs dfs -put /logs/aura20161201.log /logs/aura/day=20161201
-hdfs dfs -put /logs/aura20161202.log /logs/aura/day=20161202
-hdfs dfs -put /logs/aura20161203.log /logs/aura/day=20161203
-hdfs dfs -put /logs/aura20161204.log /logs/aura/day=20161204
-hdfs dfs -put /logs/aura20161205.log /logs/aura/day=20161205
-hdfs dfs -put /logs/aura20161206.log /logs/aura/day=20161206
-hdfs dfs -put /logs/aura20161207.log /logs/aura/day=20161207
+hdfs dfs -put /logs/al20161201.log /logs/al/day=20161201
+hdfs dfs -put /logs/al20161202.log /logs/al/day=20161202
+hdfs dfs -put /logs/al20161203.log /logs/al/day=20161203
+hdfs dfs -put /logs/al20161204.log /logs/al/day=20161204
+hdfs dfs -put /logs/al20161205.log /logs/al/day=20161205
+hdfs dfs -put /logs/al20161206.log /logs/al/day=20161206
+hdfs dfs -put /logs/al20161207.log /logs/al/day=20161207
 
-CREATE EXTERNAL TABLE aura_parquet (
+CREATE EXTERNAL TABLE al_parquet (
 act STRING,
 ts BIGINT,
 ip BIGINT,
@@ -86,11 +86,11 @@ PARTITIONED BY (
 day INT
 )
 STORED AS PARQUET
-LOCATION '/logs/aura_parquet';
+LOCATION '/logs/al_parquet';
 
 SET parquet.compression=SNAPPY;
 SET hive.exec.dynamic.partition.mode=nonstrict;
-INSERT INTO TABLE aura_parquet PARTITION(`day`) SELECT * FROM aura;
+INSERT INTO TABLE al_parquet PARTITION(`day`) SELECT * FROM al;
 
 impala-shell
 invalidate metadata;

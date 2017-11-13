@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS `aura`;
+CREATE DATABASE IF NOT EXISTS `al`;
 
-USE `aura`;
+USE `al`;
 
 SET NAMES utf8;
 

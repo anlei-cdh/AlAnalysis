@@ -17,7 +17,7 @@ public class HiveAnalysis {
         Dimension result = new Dimension();
         Connection conn = DBHelper.getHiveConnection();
         try {
-            String sql = "select count(*) pv,count(distinct(uuid)) uv,count(distinct(ip)) ip from aura " +
+            String sql = "select count(*) pv,count(distinct(uuid)) uv,count(distinct(ip)) ip from al " +
                          "where day = #{day} and ip is not null and uuid is not null";
             result = (Dimension)BasicDao.getSqlObject(sql, dimension, conn);
         } catch (Exception e) {

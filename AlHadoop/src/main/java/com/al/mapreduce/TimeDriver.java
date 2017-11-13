@@ -22,7 +22,7 @@ public class TimeDriver {
 	
 	public void run() throws Exception {
 		Configuration conf = new Configuration();
-		conf.set("mapred.job.queue.name","aura");
+		conf.set("mapred.job.queue.name","al");
 		
 		String input_path = Config.input_path;
 		String output_path = Config.output_path;

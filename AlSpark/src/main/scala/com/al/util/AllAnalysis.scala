@@ -8,8 +8,6 @@ import com.al.spark.mllib.{ChannelAnalysis, GenderAnalysis}
   */
 object AllAnalysis {
   def main(args: Array[String]): Unit = {
-    // HiveAnalysis.runAnalysis()
-
     FlowAnalysis.runAnalysis()
     SearchAnalysis.runAnalysis()
     ProvinceAnalysis.runAnalysis()

@@ -15,12 +15,25 @@ public class Config {
 	public static int checkout_timeout;
 
 	/**
+	 * hive数据库配置
+	 */
+	public static String hive_driver_class;
+	public static String hive_db_url;
+	public static String hive_username;
+	public static String hive_password;
+
+	/**
 	 * 静态参数配置
 	 */
 	public static Boolean is_local = false;
 	public static String base_path;
 	public static String day;
 	public static String input_path;
+	public static String output_path = "output/time";
+	public static String newline = "\n";
+	public static String backslash = "/";
+	public static long default_ses_time = 1800;
+	public static String reduce_result_filename = "part-r-00000";
 
 	/**
 	 * Kafka参数
@@ -65,6 +78,19 @@ public class Config {
 			checkout_timeout = config.getInt("checkout_timeout");
 		}
 
+		if(config.containsKey("hive_driver_class")) {
+			hive_driver_class = config.getString("hive_driver_class");
+		}
+		if(config.containsKey("hive_db_url")) {
+			hive_db_url = config.getString("hive_db_url");
+		}
+		if(config.containsKey("hive_username")) {
+			hive_username = config.getString("hive_username");
+		}
+		if(config.containsKey("hive_password")) {
+			hive_password = config.getString("hive_password");
+		}
+
 		if(config.containsKey("topic")) {
 			topic = config.getString("topic");
 		}
@@ -87,6 +113,11 @@ public class Config {
 		System.out.println(Config.username);
 		System.out.println(Config.password);
 		System.out.println(Config.checkout_timeout);
+
+		System.out.println(Config.hive_driver_class);
+		System.out.println(Config.hive_db_url);
+		System.out.println(Config.hive_username);
+		System.out.println(Config.hive_password);
 
 		System.out.println(Config.topic);
 		System.out.println(Config.zkHosts);
