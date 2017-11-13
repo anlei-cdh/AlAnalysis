@@ -69,29 +69,6 @@
 
     <build>
         <plugins>
-            <!--
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <classifier>dist</classifier>
-                    <appendAssemblyId>true</appendAssemblyId>
-                    <descriptorRefs>
-                        <descriptor>jar-with-dependencies</descriptor>
-                    </descriptorRefs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
-
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -135,7 +112,6 @@
                     </javacArgs>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 
