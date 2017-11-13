@@ -44,7 +44,7 @@ public class Config {
 	static {
 		PropertiesConfiguration config = null;
 		try {
-			config = new PropertiesConfiguration("config/aura.properties");
+			config = new PropertiesConfiguration("config/al.properties");
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
