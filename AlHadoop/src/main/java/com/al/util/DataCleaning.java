@@ -32,7 +32,7 @@ public class DataCleaning {
                     continue;
                 }
                 // ip cookie act 等用户信息清洗
-                line = line.replaceAll("\"Act\":\"\\w+\",","\"Act\":\"aura\",");
+                line = line.replaceAll("\"Act\":\"\\w+\",","\"Act\":\"al\",");
                 line = line.replaceAll("\"Ip\":\"\\d+\",","\"Ip\":\"" + index_ip + "\",");
                 line = line.replaceAll("\"Uid\":\"\\w+\",","\"Uid\":\"" + index_uid + "\",");
                 line = line.replaceAll("\"Uuid\":\"\\w+\",","\"UUid\":\"" + index_uuid + "\",");
@@ -131,13 +131,13 @@ public class DataCleaning {
     }
 
     public static void main(String[] args) {
-        cleaning("D:/logs/basic.log", "logs/aura.log", 0, 10000, 0);
-        cleaning("D:/logs/basic.log", "logs/aura20161201.log", 0, 800, 1); // 800
-        cleaning("D:/logs/basic.log", "logs/aura20161202.log", 800, 2000, 2); // 1200
-        cleaning("D:/logs/basic.log", "logs/aura20161203.log", 2000, 3600, 3); // 1600
-        cleaning("D:/logs/basic.log", "logs/aura20161204.log", 3600, 5000, 4); // 1400
-        cleaning("D:/logs/basic.log", "logs/aura20161205.log", 5000, 6100, 5); // 1100
-        cleaning("D:/logs/basic.log", "logs/aura20161206.log", 6100, 6880, 6); // 780
-        cleaning("D:/logs/basic.log", "logs/aura20161207.log", 6880, 8000, 7); // 1120
+        cleaning("D:/logs/basic.log", "logs/al.log", 0, 10000, 0);
+        cleaning("D:/logs/basic.log", "logs/al20161201.log", 0, 800, 1); // 800
+        cleaning("D:/logs/basic.log", "logs/al20161202.log", 800, 2000, 2); // 1200
+        cleaning("D:/logs/basic.log", "logs/al20161203.log", 2000, 3600, 3); // 1600
+        cleaning("D:/logs/basic.log", "logs/al20161204.log", 3600, 5000, 4); // 1400
+        cleaning("D:/logs/basic.log", "logs/al20161205.log", 5000, 6100, 5); // 1100
+        cleaning("D:/logs/basic.log", "logs/al20161206.log", 6100, 6880, 6); // 780
+        cleaning("D:/logs/basic.log", "logs/al20161207.log", 6880, 8000, 7); // 1120
     }
 }
