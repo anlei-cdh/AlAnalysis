@@ -5,9 +5,17 @@ public class TimeRun {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) throws Exception {
-		TimeDriver dirver = new TimeDriver();
-		dirver.run();
+	public static void main(String[] args) {
+		TimeRun.runAnalysis();
+	}
+
+	public static void runAnalysis() {
+		try {
+			TimeDriver dirver = new TimeDriver();
+			dirver.run();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
