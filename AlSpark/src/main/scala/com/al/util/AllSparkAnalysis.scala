@@ -6,7 +6,7 @@ import com.al.spark.mllib.{ChannelAnalysis, GenderAnalysis}
 /**
   * Created by An on 2016/11/30.
   */
-object AllAnalysis {
+object AllSparkAnalysis {
 
   def main(args: Array[String]): Unit = {
     FlowAnalysis.runAnalysis()
