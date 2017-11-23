@@ -6,37 +6,50 @@ import org.apache.spark.sql.SparkSession
 
 object LogisticRegression {
 
+  val lr_path = "model/lr"
+  val training_path = "training/gender.txt"
+  val numFeatures = 10000
+
+  val id = "id"
+  val text = "text"
+  val label = "label"
+  val features = "features"
+
   def main(args: Array[String]): Unit = {
-
     val spark = SparkSession.builder().master("local").appName(s"${this.getClass.getSimpleName}").getOrCreate()
+    saveLogisticRegressionModel(spark)
+    testLogisticRegression(spark)
+    spark.stop()
+  }
 
-    val path = "model/lr"
-    val trainingData = WordSplitUtil.getTrainingSplitList("training/gender.txt")
+  def saveLogisticRegressionModel(spark: SparkSession): Unit = {
+    val trainingData = WordSplitUtil.getTrainingSplitList(training_path)
 
-    val trainingDataFrame = spark.createDataFrame(trainingData).toDF("label", "sentence")
-    val training = MLUtil.idfFeatures(trainingDataFrame).select("label", "features")
+    val trainingDataFrame = spark.createDataFrame(trainingData).toDF(label, text)
+    val training = MLUtil.idfFeatures(trainingDataFrame, numFeatures).select(label, features)
 
     val lr = new LogisticRegression()
       .setMaxIter(10)
-      .setRegParam(0.3)
-      .setElasticNetParam(0.8)
+      .setRegParam(0.001)
 
-    lr.fit(training).save(path)
+    lr.fit(training).write.overwrite().save(lr_path)
+  }
 
-    val testData = spark.createDataFrame(Seq(
-      (0.0, "特朗普 中国 挑衅"),
-      (0.0, "市场经济国 中国 承认 地位"),
-      (0.0, "恒大 中超 亚洲 重返"),
-      (0.0, "辣妈 章泽天 诺奖 得主")
-    )).toDF("label", "sentence")
-    val test = MLUtil.idfFeatures(testData).select("features")
+  def testLogisticRegression(spark: SparkSession): Unit = {
+    val testData = Seq(
+      (1, "特朗普 中国 挑衅"),
+      (2, "市场经济国 中国 承认 地位"),
+      (3, "恒大 中超 亚洲 重返"),
+      (4, "辣妈 章泽天 诺奖 得主")
+    )
 
-    val lrModel = LogisticRegressionModel.load(path)
+    val testDataFrame = spark.createDataFrame(testData).toDF(id, text)
+    val test = MLUtil.idfFeatures(testDataFrame, numFeatures).select(features)
+
+    val lrModel = LogisticRegressionModel.load(lr_path)
     val result = lrModel.transform(test)
+
     result.show(false)
-
-    spark.stop()
-
   }
 
 }
