@@ -1,5 +1,6 @@
 package com.al.spark.ml
 
+import com.al.config.Config
 import com.al.util.{MLUtil, WordSplitUtil}
 import org.apache.spark.ml.classification.{LogisticRegression, LogisticRegressionModel}
 import org.apache.spark.sql.SparkSession
@@ -15,10 +16,31 @@ object LogisticRegression {
   val label = "label"
   val features = "features"
 
+  case class Lr(uuid:String,ip:String,title: String,var text: String)
+
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder().master("local").appName(s"${this.getClass.getSimpleName}").getOrCreate()
-    saveLogisticRegressionModel(spark)
-    testLogisticRegression(spark)
+
+    // saveLogisticRegressionModel(spark)
+    // testLogisticRegression(spark)
+
+    val dataframe = spark.read.json(Config.input_path)
+    val selectdf = dataframe.selectExpr("uuid", "ip", "title", "title AS text")
+
+    import spark.implicits._
+    val dataset = selectdf.as[Lr]
+    val wordsplit = dataset.map{lr =>
+      lr.text = WordSplitUtil.getWordSplit(lr.title)
+      lr
+    }.filter(lr => lr.text != null).select("uuid","ip",text)
+
+    val idf = MLUtil.idfFeatures(wordsplit, numFeatures).select("uuid","ip",features)
+
+    val lrModel = LogisticRegressionModel.load(lr_path)
+    val result = lrModel.transform(idf).select("uuid","ip","prediction")
+
+    result.show()
+
     spark.stop()
   }
 
