@@ -2,6 +2,8 @@ package com.al.db
 
 import java.sql.{Connection, PreparedStatement, ResultSet}
 
+import com.al.basic.BasicDao
+
 object DBHelper {
   
   /**
@@ -11,6 +13,37 @@ object DBHelper {
     // return JDBCHelper.getConnection()
 		return C3P0Helper.getConnection()
 	}
+
+	/**
+		* 获得事物的数据库连接
+		*/
+	def getConnectionAtFalse(): Connection = {
+		val conn: Connection = DBHelper.getConnection()
+		DBHelper.setAutoCommit(conn, false)
+		return conn
+	}
+
+	/**
+		* 添加批处理操作并执行
+		*/
+	def setPreparedSqlexecuteBatch(conn: Connection, pstmt: PreparedStatement, sql: String, count: Int, entity: Any): Unit = {
+		BasicDao.setPreparedSql(sql, pstmt, entity)
+		pstmt.addBatch()
+		DBHelper.executeBatch(conn, pstmt, count)
+	}
+
+	/**
+		* 提交并关闭
+		*/
+	def commitClose(conn: Connection, pstmt: PreparedStatement): Unit = {
+		pstmt.executeBatch()
+		DBHelper.commit(conn)
+
+		DBHelper.close(pstmt)
+		DBHelper.setAutoCommit(conn, true)
+		DBHelper.close(conn)
+	}
+
   /**
 	 * 事务提交
 	 */
