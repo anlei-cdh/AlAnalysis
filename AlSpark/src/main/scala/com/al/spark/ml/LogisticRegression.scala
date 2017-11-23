@@ -23,7 +23,12 @@ object LogisticRegression {
 
     // saveLogisticRegressionModel(spark)
     // testLogisticRegression(spark)
+    processLogisticRegression(spark)
 
+    spark.stop()
+  }
+
+  def processLogisticRegression(spark: SparkSession): Unit = {
     val dataframe = spark.read.json(Config.input_path)
     val selectdf = dataframe.selectExpr("uuid", "ip", "title", "title AS text")
 
@@ -37,11 +42,11 @@ object LogisticRegression {
     val idf = MLUtil.idfFeatures(wordsplit, numFeatures).select("uuid","ip",features)
 
     val lrModel = LogisticRegressionModel.load(lr_path)
-    val result = lrModel.transform(idf).select("uuid","ip","prediction")
+    val prediction = lrModel.transform(idf).select("uuid","ip","prediction")
 
+    prediction.createOrReplaceTempView("dftable")
+    val result = spark.sql("SELECT prediction,COUNT(1) pv,COUNT(DISTINCT(uuid)) uv,COUNT(DISTINCT(ip)) ip FROM dftable GROUP BY prediction")
     result.show()
-
-    spark.stop()
   }
 
   def saveLogisticRegressionModel(spark: SparkSession): Unit = {
