@@ -1,9 +1,9 @@
-package com.al.util;
+package com.al.run;
 
 import com.al.hive.HiveAnalysis;
 import com.al.mapreduce.TimeRun;
 
-public class AllHadoopAnalysis {
+public class HadoopAnalysis {
 
     public static void main(String[] args) {
         HiveAnalysis.runAnalysis();
