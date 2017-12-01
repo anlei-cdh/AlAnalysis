@@ -41,8 +41,11 @@ object Config {
   var brokerList: String = null
 
   /**
-    * 机器学习列名
+    * 机器学习相关
     */
+  val lr_path = "model/lr"
+  val training_gender_path = "training/gender.txt"
+  val numFeatures = 10000
   val id = "id"
   val text = "text"
   val label = "label"
