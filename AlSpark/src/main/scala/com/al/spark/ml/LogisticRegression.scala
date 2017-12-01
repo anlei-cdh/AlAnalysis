@@ -17,7 +17,7 @@ object LogisticRegression {
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder().master("local").appName(s"${this.getClass.getSimpleName}").getOrCreate()
 
-    // saveLogisticRegressionModel(spark)
+    saveLogisticRegressionModel(spark)
     // testLogisticRegression(spark)
     processLogisticRegression(spark)
 
