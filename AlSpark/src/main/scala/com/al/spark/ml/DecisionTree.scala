@@ -76,10 +76,10 @@ object DecisionTree {
       lr
     }.filter(lr => lr.text != null).select("uuid","ip",Config.text)
 
-    val idf = MLUtil.hashingFeatures(wordsplit, Config.numFeatures).select("uuid","ip",Config.features)
+    val hashing = MLUtil.hashingFeatures(wordsplit, Config.numFeatures).select("uuid","ip",Config.features)
 
     val model = DecisionTreeClassificationModel.load(Config.dt_path)
-    val prediction = model.transform(idf).select("uuid","ip","prediction")
+    val prediction = model.transform(hashing).select("uuid","ip","prediction")
 
     prediction.createOrReplaceTempView("dftable")
     val result = spark.sql("SELECT prediction,COUNT(1) pv,COUNT(DISTINCT(uuid)) uv,COUNT(DISTINCT(ip)) ip FROM dftable GROUP BY prediction")
