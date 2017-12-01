@@ -6,7 +6,7 @@ import com.al.basic.BasicDao
 import com.al.config.Config
 import com.al.db.DBHelper
 import com.al.entity.DataResult
-import com.al.util.{MLUtil, WordSplitUtil}
+import com.al.util.{MLUtil, TrainingUtil, WordSplitUtil}
 import org.apache.spark.ml.classification.{LogisticRegression, LogisticRegressionModel}
 import org.apache.spark.sql.SparkSession
 
@@ -87,19 +87,13 @@ object LogisticRegression {
     val lr = new LogisticRegression()
       .setMaxIter(10)
       .setRegParam(0.001)
+      .setFamily("multinomial") // binomial
 
     lr.fit(training).write.overwrite().save(lr_path)
   }
 
   def testLogisticRegression(spark: SparkSession): Unit = {
-    val testData = Seq(
-      (1, "特朗普 中国 挑衅"),
-      (2, "市场经济国 中国 承认 地位"),
-      (3, "恒大 中超 亚洲 重返"),
-      (4, "辣妈 章泽天 诺奖 得主")
-    )
-
-    val testDataFrame = spark.createDataFrame(testData).toDF(id, text)
+    val testDataFrame = spark.createDataFrame(TrainingUtil.testLrData).toDF(id, text)
     val test = MLUtil.idfFeatures(testDataFrame, numFeatures).select(features)
 
     val lrModel = LogisticRegressionModel.load(lr_path)
