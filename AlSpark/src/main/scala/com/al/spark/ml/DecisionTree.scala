@@ -118,10 +118,10 @@ object DecisionTree {
     val trainingDataFrame = spark.createDataFrame(trainingData).toDF(Config.label, Config.text)
     val training = MLUtil.hashingFeatures(trainingDataFrame, Config.numFeatures).select(Config.label, Config.features)
 
-    val dt = new DecisionTreeClassifier()
+    val model = new DecisionTreeClassifier()
       .setImpurity("entropy")
 
-    dt.fit(training).write.overwrite().save(Config.dt_path)
+    model.fit(training).write.overwrite().save(Config.dt_path)
   }
 
   def testDecisionTree(spark: SparkSession): Unit = {

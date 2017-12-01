@@ -75,12 +75,12 @@ object LogisticRegression {
     val trainingDataFrame = spark.createDataFrame(trainingData).toDF(Config.label, Config.text)
     val training = MLUtil.idfFeatures(trainingDataFrame, Config.numFeatures).select(Config.label, Config.features)
 
-    val lr = new LogisticRegression()
+    val model = new LogisticRegression()
       .setMaxIter(10)
       .setRegParam(0.001)
       .setFamily("binomial") // binomial | multinomial
 
-    lr.fit(training).write.overwrite().save(Config.lr_path)
+    model.fit(training).write.overwrite().save(Config.lr_path)
   }
 
   def testLogisticRegression(spark: SparkSession): Unit = {
