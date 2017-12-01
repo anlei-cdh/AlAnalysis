@@ -37,8 +37,8 @@ object LogisticRegression {
 
     val idf = MLUtil.idfFeatures(wordsplit, Config.numFeatures).select("uuid","ip",Config.features)
 
-    val lrModel = LogisticRegressionModel.load(Config.lr_path)
-    val prediction = lrModel.transform(idf).select("uuid","ip","prediction")
+    val model = LogisticRegressionModel.load(Config.lr_path)
+    val prediction = model.transform(idf).select("uuid","ip","prediction")
 
     prediction.createOrReplaceTempView("dftable")
     val result = spark.sql("SELECT prediction,COUNT(1) pv,COUNT(DISTINCT(uuid)) uv,COUNT(DISTINCT(ip)) ip FROM dftable GROUP BY prediction")
@@ -87,8 +87,8 @@ object LogisticRegression {
     val testDataFrame = spark.createDataFrame(TrainingUtil.testLrData).toDF(Config.id, Config.text)
     val test = MLUtil.idfFeatures(testDataFrame, Config.numFeatures).select(Config.features)
 
-    val lrModel = LogisticRegressionModel.load(Config.lr_path)
-    val result = lrModel.transform(test)
+    val model = LogisticRegressionModel.load(Config.lr_path)
+    val result = model.transform(test)
 
     result.show(false)
   }
