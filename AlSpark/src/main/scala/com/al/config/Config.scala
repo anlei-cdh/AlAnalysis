@@ -40,6 +40,14 @@ object Config {
   var zkHosts: String = null
   var brokerList: String = null
 
+  /**
+    * 机器学习列名
+    */
+  val id = "id"
+  val text = "text"
+  val label = "label"
+  val features = "features"
+
   val config: PropertiesConfiguration = new PropertiesConfiguration("config/al.properties");
   loadConfig(config)
 
