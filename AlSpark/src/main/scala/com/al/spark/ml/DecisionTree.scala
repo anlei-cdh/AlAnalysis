@@ -43,32 +43,30 @@ object DecisionTree {
     prediction.createOrReplaceTempView("dftable")
     val result = spark.sql("SELECT prediction,COUNT(1) pv,COUNT(DISTINCT(uuid)) uv,COUNT(DISTINCT(ip)) ip FROM dftable GROUP BY prediction")
 
-    result.show(false)
+    result.foreachPartition(records => {
+      if (!records.isEmpty) {
+        val conn: Connection = DBHelper.getConnectionAtFalse()
+        val sql: String = "INSERT INTO mllib_channel_data(channelid,`day`,pv,uv,ip) VALUES (#{prediction},#{day},#{pv},#{uv},#{ip}) on duplicate key update pv = values(pv),uv = values(uv),ip = values(ip)"
+        val pstmt: PreparedStatement = conn.prepareStatement(BasicDao.getRealSql(sql))
+        var count: Int = 0
 
-//    result.foreachPartition(records => {
-//      if (!records.isEmpty) {
-//        val conn: Connection = DBHelper.getConnectionAtFalse()
-//        val sql: String = "INSERT INTO mllib_gender_data(genderid,`day`,pv,uv,ip) VALUES (#{prediction},#{day},#{pv},#{uv},#{ip}) on duplicate key update pv = values(pv),uv = values(uv),ip = values(ip)"
-//        val pstmt: PreparedStatement = conn.prepareStatement(BasicDao.getRealSql(sql))
-//        var count: Int = 0
-//
-//        records.foreach {
-//          record => {
-//            val dataResult = new DataResult
-//            dataResult.prediction = record.getAs[Double]("prediction").toInt
-//            dataResult.pv = record.getAs[Long]("pv").toInt
-//            dataResult.uv = record.getAs[Long]("uv").toInt
-//            dataResult.ip = record.getAs[Long]("ip").toInt
-//            dataResult.day = Config.day
-//
-//            count += 1
-//            DBHelper.setPreparedSqlexecuteBatch(conn, pstmt, sql, count, dataResult)
-//          }
-//        }
-//
-//        DBHelper.commitClose(conn, pstmt)
-//      }
-//    })
+        records.foreach {
+          record => {
+            val dataResult = new DataResult
+            dataResult.prediction = record.getAs[Double]("prediction").toInt
+            dataResult.pv = record.getAs[Long]("pv").toInt
+            dataResult.uv = record.getAs[Long]("uv").toInt
+            dataResult.ip = record.getAs[Long]("ip").toInt
+            dataResult.day = Config.day
+
+            count += 1
+            DBHelper.setPreparedSqlexecuteBatch(conn, pstmt, sql, count, dataResult)
+          }
+        }
+
+        DBHelper.commitClose(conn, pstmt)
+      }
+    })
   }
 
   def saveDecisionTreeModel(spark: SparkSession): Unit = {
