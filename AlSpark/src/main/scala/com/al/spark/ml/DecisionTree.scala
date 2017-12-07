@@ -56,7 +56,7 @@ object DecisionTree {
     result.repartition(Config.partition).foreachPartition(records => {
       if (!records.isEmpty) {
         val conn: Connection = DBHelper.getConnectionAtFalse()
-        val sql: String = "INSERT INTO mllib_channel_data(channelid,`day`,pv,uv,ip) VALUES (#{prediction},#{day},#{pv},#{uv},#{ip}) on duplicate key update pv = values(pv),uv = values(uv),ip = values(ip)"
+        val sql: String = "INSERT INTO ml_dt_data(channelid,pv,uv,ip) VALUES (#{prediction},#{pv},#{uv},#{ip}) on duplicate key update pv = values(pv),uv = values(uv),ip = values(ip)"
         val pstmt: PreparedStatement = conn.prepareStatement(BasicDao.getRealSql(sql))
         var count: Int = 0
 
@@ -67,7 +67,6 @@ object DecisionTree {
             dataResult.pv = record.getAs[Long]("pv").toInt
             dataResult.uv = record.getAs[Long]("uv").toInt
             dataResult.ip = record.getAs[Long]("ip").toInt
-            dataResult.day = Config.day
 
             count += 1
             DBHelper.setPreparedSqlexecuteBatch(conn, pstmt, sql, count, dataResult)

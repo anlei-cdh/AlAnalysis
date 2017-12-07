@@ -120,3 +120,26 @@ CREATE TABLE `mllib_channel_data` (
   `ip` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`channelid`,`day`)
 ) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `ml_lr_data` (
+  `genderid` INT(11) NOT NULL,
+  `pv` INT(11) UNSIGNED NOT NULL,
+  `uv` INT(11) UNSIGNED NOT NULL,
+  `ip` INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`genderid`)
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `ml_dt_data` (
+  `channelid` INT(11) NOT NULL,
+  `pv` INT(11) UNSIGNED NOT NULL,
+  `uv` INT(11) UNSIGNED NOT NULL,
+  `ip` INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`channelid`)
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `ml_clustering_data` (
+  `clusteringid` INT(11) NOT NULL,
+  `channelid` INT(11) NOT NULL,
+  `pv` INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`clusteringid`,`channelid`)
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
