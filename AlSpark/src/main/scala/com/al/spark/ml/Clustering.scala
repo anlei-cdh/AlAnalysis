@@ -33,7 +33,7 @@ object Clustering {
     /**
       * 分词,向量化
       */
-    val clustering = MLUtil.hashingFeatures(clusteringDataFrame, numFeatures).select("label", "features")
+    val clustering = MLUtil.hashingFeatures(clusteringDataFrame, numFeatures).select("label", "features", "text", "textlist")
 
     /**
       * K-means模型

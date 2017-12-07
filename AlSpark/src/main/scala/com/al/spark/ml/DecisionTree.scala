@@ -16,16 +16,21 @@ object DecisionTree {
   val modeltype = "lr" // lr(逻辑回归) | bayes(贝叶斯) | dt(决策树) | rf(随机森林)
 
   def main(args: Array[String]): Unit = {
-    val spark = SparkSession.builder().master("local").appName(s"${this.getClass.getSimpleName}").getOrCreate()
+    val builder = SparkSession.builder()
+    if(Config.is_local) {
+      builder.master("local")
+    }
+    val spark = builder.appName(s"${this.getClass.getSimpleName}").getOrCreate()
 
     saveDecisionTreeModel(spark)
 //    testDecisionTree(spark)
-    processDecisionTree(spark)
+    val prediction = processDecisionTree(spark)
+    saveDecisionTreeDB(prediction, spark)
 
     spark.stop()
   }
 
-  def processDecisionTree(spark: SparkSession): Unit = {
+  def processDecisionTree(spark: SparkSession): DataFrame = {
     val dataframe = spark.read.json(Config.input_path)
     val selectdf = dataframe.selectExpr("uuid", "ip", "title", "title AS text")
 
@@ -38,12 +43,17 @@ object DecisionTree {
 
     val hashing = MLUtil.hashingFeatures(wordsplit, Config.numFeatures).select("uuid","ip",Config.features)
 
-    val prediction = loadModelTransform(hashing).select("uuid","ip","prediction")
+    val prediction = loadModelTransform(hashing)
 
+    return prediction
+  }
+
+  def saveDecisionTreeDB(prediction: DataFrame, spark: SparkSession): Unit = {
+    prediction.select("uuid","ip","prediction")
     prediction.createOrReplaceTempView("dftable")
     val result = spark.sql("SELECT prediction,COUNT(1) pv,COUNT(DISTINCT(uuid)) uv,COUNT(DISTINCT(ip)) ip FROM dftable GROUP BY prediction")
 
-    result.foreachPartition(records => {
+    result.repartition(Config.partition).foreachPartition(records => {
       if (!records.isEmpty) {
         val conn: Connection = DBHelper.getConnectionAtFalse()
         val sql: String = "INSERT INTO mllib_channel_data(channelid,`day`,pv,uv,ip) VALUES (#{prediction},#{day},#{pv},#{uv},#{ip}) on duplicate key update pv = values(pv),uv = values(uv),ip = values(ip)"

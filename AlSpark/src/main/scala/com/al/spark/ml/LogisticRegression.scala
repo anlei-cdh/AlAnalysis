@@ -8,42 +8,33 @@ import com.al.db.DBHelper
 import com.al.entity.DataResult
 import com.al.util.{MLUtil, TrainingUtil, WordSplitUtil}
 import org.apache.spark.ml.classification.{LogisticRegression, LogisticRegressionModel}
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object LogisticRegression {
 
   case class Lr(uuid:String,ip:String,title: String,var text: String)
 
   def main(args: Array[String]): Unit = {
-    val spark = SparkSession.builder().master("local").appName(s"${this.getClass.getSimpleName}").getOrCreate()
+    val builder = SparkSession.builder()
+    if(Config.is_local) {
+      builder.master("local")
+    }
+    val spark = builder.appName(s"${this.getClass.getSimpleName}").getOrCreate()
 
     saveLogisticRegressionModel(spark)
     // testLogisticRegression(spark)
-    processLogisticRegression(spark)
+    val prediction = processLogisticRegression(spark)
+    saveLogisticRegressionDB(prediction, spark)
 
     spark.stop()
   }
 
-  def processLogisticRegression(spark: SparkSession): Unit = {
-    val dataframe = spark.read.json(Config.input_path)
-    val selectdf = dataframe.selectExpr("uuid", "ip", "title", "title AS text")
-
-    import spark.implicits._
-    val dataset = selectdf.as[Lr]
-    val wordsplit = dataset.map{lr =>
-      lr.text = WordSplitUtil.getWordSplit(lr.title)
-      lr
-    }.filter(lr => lr.text != null).select("uuid","ip",Config.text)
-
-    val idf = MLUtil.idfFeatures(wordsplit, Config.numFeatures).select("uuid","ip",Config.features)
-
-    val model = LogisticRegressionModel.load(Config.lr_path)
-    val prediction = model.transform(idf).select("uuid","ip","prediction")
-
-    prediction.createOrReplaceTempView("dftable")
+  def saveLogisticRegressionDB(prediction: DataFrame, spark: SparkSession): Unit = {
+    val predictionSelect = prediction.select("uuid","ip","prediction")
+    predictionSelect.createOrReplaceTempView("dftable")
     val result = spark.sql("SELECT prediction,COUNT(1) pv,COUNT(DISTINCT(uuid)) uv,COUNT(DISTINCT(ip)) ip FROM dftable GROUP BY prediction")
 
-    result.foreachPartition(records => {
+    result.repartition(Config.partition).foreachPartition(records => {
       if (!records.isEmpty) {
         val conn: Connection = DBHelper.getConnectionAtFalse()
         val sql: String = "INSERT INTO mllib_gender_data(genderid,`day`,pv,uv,ip) VALUES (#{prediction},#{day},#{pv},#{uv},#{ip}) on duplicate key update pv = values(pv),uv = values(uv),ip = values(ip)"
@@ -67,6 +58,25 @@ object LogisticRegression {
         DBHelper.commitClose(conn, pstmt)
       }
     })
+  }
+
+  def processLogisticRegression(spark: SparkSession): DataFrame = {
+    val dataframe = spark.read.json(Config.input_path)
+    val selectdf = dataframe.selectExpr("uuid", "ip", "title", "title AS text")
+
+    import spark.implicits._
+    val dataset = selectdf.as[Lr]
+    val wordsplit = dataset.map{lr =>
+      lr.text = WordSplitUtil.getWordSplit(lr.title)
+      lr
+    }.filter(lr => lr.text != null).select("uuid","ip",Config.text)
+
+    val idf = MLUtil.idfFeatures(wordsplit, Config.numFeatures).select("uuid","ip",Config.features)
+
+    val model = LogisticRegressionModel.load(Config.lr_path)
+    val prediction = model.transform(idf)
+
+    return prediction
   }
 
   def saveLogisticRegressionModel(spark: SparkSession): Unit = {
