@@ -1,21 +1,31 @@
 package com.al.spark.ml
 
+import com.al.config.Config
 import com.al.util.MLUtil
 import org.apache.spark.ml.clustering.KMeans
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object Clustering {
 
   case class Users(label: String, textlist: List[String], var text: String)
 
-  def main(args: Array[String]): Unit = {
-    val spark = SparkSession.builder().master("local").appName(s"${this.getClass.getSimpleName}").getOrCreate()
+  val k = 5
+  val numFeatures = 50
 
-    val numFeatures = 50
-    val k = 5
-    /**
-      * 训练集
-      */
+  def main(args: Array[String]): Unit = {
+    val builder = SparkSession.builder()
+    if(Config.is_local) {
+      builder.master("local")
+    }
+    val spark = builder.appName(s"${this.getClass.getSimpleName}").getOrCreate()
+
+    val clusteringDataFrame = getClusteringDataFrame(spark)
+    processClustering(clusteringDataFrame, spark)
+
+    spark.stop()
+  }
+
+  def getClusteringDataFrame(spark: SparkSession): DataFrame = {
     DecisionTree.saveDecisionTreeModel(spark)
     val predictionDataFrame = DecisionTree.processDecisionTree(spark).filter("uuid is not null")
 
@@ -30,6 +40,10 @@ object Clustering {
       user
     }).toDF()
 
+    return clusteringDataFrame
+  }
+
+  def processClustering(clusteringDataFrame: DataFrame, spark: SparkSession): Unit = {
     /**
       * 分词,向量化
       */
@@ -44,12 +58,10 @@ object Clustering {
     /**
       * 聚类中心
       */
-    model.clusterCenters.foreach(println)
+    // model.clusterCenters.foreach(println)
     /**
       * 聚类结果
       */
     model.transform(clustering).show(100)
-
-    spark.stop()
   }
 }

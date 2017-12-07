@@ -23,7 +23,7 @@ object DecisionTree {
     val spark = builder.appName(s"${this.getClass.getSimpleName}").getOrCreate()
 
     saveDecisionTreeModel(spark)
-//    testDecisionTree(spark)
+    // testDecisionTree(spark)
     val prediction = processDecisionTree(spark)
     saveDecisionTreeDB(prediction, spark)
 
