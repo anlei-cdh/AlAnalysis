@@ -32,6 +32,7 @@ object Config {
     * Spark模块参数配置
     */
   val partition = 1
+  val recommendcount = 5
   val lr_path = "model/lr"
   val dt_path = "model/dt"
   val training_gender_path = "training/gender.txt"

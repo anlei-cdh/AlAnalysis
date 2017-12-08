@@ -143,3 +143,31 @@ CREATE TABLE `ml_clustering_data` (
   `pv` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`clusteringid`,`channelid`)
 ) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `ml_cf_user_data` (
+  `userid` INT(11) NOT NULL,
+  `itemid` INT(11) NOT NULL,
+  `source` FLOAT(11) NOT NULL,
+  PRIMARY KEY (`userid`,`itemid`)
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `ml_cf_item_data` (
+  `itemid` INT(11) NOT NULL,
+  `userid` INT(11) NOT NULL,
+  `source` FLOAT(11) NOT NULL,
+  PRIMARY KEY (`itemid`,`userid`)
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `ml_cf_user` (
+  `id` INT(11) NOT NULL,
+  `name` VARCHAR(32) NOT NULL,
+  `image` VARCHAR(64),
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ml_cf_item` (
+  `id` INT(11) NOT NULL,
+  `name` VARCHAR(32) NOT NULL,
+  `image` VARCHAR(64),
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;

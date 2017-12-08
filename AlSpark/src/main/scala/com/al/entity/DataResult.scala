@@ -8,4 +8,8 @@ class DataResult {
   @BeanProperty var pv: Int = 0
   @BeanProperty var uv: Int = 0
   @BeanProperty var ip: Int = 0
+
+  @BeanProperty var userid: Int = -1
+  @BeanProperty var itemid: Int = -1
+  @BeanProperty var source: Float = 0.0F
 }
