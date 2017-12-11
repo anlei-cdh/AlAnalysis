@@ -33,7 +33,7 @@ object CollaborativeFiltering {
 
   def runAlsRecommend(spark: SparkSession): Unit = {
     import spark.implicits._
-    val ratings = spark.read.textFile("logs/sample_movielens_ratings.txt")
+    val ratings = spark.read.textFile(Config.cf_data)
       .map(parseRating)
       .toDF()
 

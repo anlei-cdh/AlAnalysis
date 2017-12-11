@@ -31,7 +31,7 @@ object DecisionTree {
   }
 
   def processDecisionTree(spark: SparkSession): DataFrame = {
-    val dataframe = spark.read.json(Config.input_path)
+    val dataframe = spark.read.json(Config.union_path)
     val selectdf = dataframe.selectExpr("uuid", "ip", "title", "title AS text")
 
     import spark.implicits._
