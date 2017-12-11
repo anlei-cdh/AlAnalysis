@@ -12,6 +12,7 @@ public class Config {
 	public static String day;
 	public static String base_path;
 	public static String input_path;
+	public static String union_path;
 	
 	/**
 	 * mysql数据库配置
@@ -65,6 +66,7 @@ public class Config {
 			day = config.getString("day");
 			base_path = config.getString("base_path");
 			input_path = base_path + day.replace("-", "") + ".log";
+			union_path = base_path + ".log";
 		}
 
 		if(config.containsKey("driver_class")) {
@@ -113,6 +115,7 @@ public class Config {
 		System.out.println(Config.day);
 		System.out.println(Config.base_path);
 		System.out.println(Config.input_path);
+		System.out.println(Config.union_path);
 		System.out.println("===MySql===");
 		System.out.println(Config.driver_class);
 		System.out.println(Config.db_url);

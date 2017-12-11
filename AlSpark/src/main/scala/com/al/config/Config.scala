@@ -11,6 +11,7 @@ object Config {
   var base_path: String = null
   var day: String = null
   var input_path: String = null
+  var union_path: String = null
 
   /**
     * mysql数据库配置
@@ -33,11 +34,14 @@ object Config {
     */
   val partition = 1
   val recommendcount = 5
+  val numFeatures = 10000
+
+  val cf_data = "logs/sample_movielens_ratings.txt"
   val lr_path = "model/lr"
   val dt_path = "model/dt"
   val training_gender_path = "training/gender.txt"
   val training_channel_path = "training/channel.txt"
-  val numFeatures = 10000
+
   val id = "id"
   val text = "text"
   val label = "label"
@@ -52,6 +56,7 @@ object Config {
       base_path = config.getString("base_path")
       day = config.getString("day")
       input_path = base_path + day.replace("-", "") + ".log"
+      union_path = base_path + ".log"
     }
 
     if (config.containsKey("topic")) topic = config.getString("topic")
@@ -71,6 +76,7 @@ object Config {
     println(Config.day)
     println(Config.base_path)
     println(Config.input_path)
+    println(Config.union_path)
     println("===MySql===")
     println(Config.driver_class)
     println(Config.db_url)
