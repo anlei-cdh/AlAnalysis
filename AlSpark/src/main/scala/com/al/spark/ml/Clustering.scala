@@ -15,7 +15,7 @@ object Clustering {
 
   case class Users(label: String, textlist: List[String], var text: String)
 
-  val k = 5
+  val k = 8
   val numFeatures = 50
 
   def main(args: Array[String]): Unit = {
