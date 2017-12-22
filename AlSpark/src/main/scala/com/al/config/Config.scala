@@ -33,7 +33,7 @@ object Config {
     * Spark模块参数配置
     */
   val partition = 1
-  val recommendcount = 5
+  val recommendcount = 4
   val numFeatures = 10000
 
   val cf_data = "logs/sample_movielens_ratings.txt"
