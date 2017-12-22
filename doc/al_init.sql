@@ -321,3 +321,21 @@ INSERT INTO `common_channel` VALUES
 (8,'社会'),
 (9,'教育');
 UNLOCK TABLES;
+
+LOCK TABLES `ml_cf_user` WRITE;
+INSERT INTO `ml_cf_user` VALUES
+(1,'霍保军','hbj.png'),
+(2,'郭贤','gx.jpg'),
+(3,'李舒燕','lsy.jpg'),
+(4,'商亮','sl.jpg'),
+(5,'韩璐璐','hll.jpg');
+UNLOCK TABLES;
+
+LOCK TABLES `ml_cf_item` WRITE;
+INSERT INTO `ml_cf_item` VALUES
+(1,'战狼2','zl2.jpg'),
+(2,'追龙','zl.jpg'),
+(3,'空天猎','ktl.jpg'),
+(4,'密战','mz.jpg'),
+(5,'悟空传','wkz.jpg');
+UNLOCK TABLES;
