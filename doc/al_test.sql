@@ -15,6 +15,12 @@ TRUNCATE `sparkcore_content_detail`;
 TRUNCATE `mllib_gender_data`;
 TRUNCATE `mllib_channel_data`;
 
+TRUNCATE `ml_lr_data`;
+TRUNCATE `ml_dt_data`;
+TRUNCATE `ml_clustering_data`;
+TRUNCATE `ml_cf_user_data`;
+TRUNCATE `ml_cf_item_data`;
+
 SELECT * FROM `hive_dimension_data`;
 
 SELECT * FROM `storm_dimension_data`;
@@ -31,6 +37,12 @@ SELECT * FROM `sparkcore_content_detail`;
 
 SELECT * FROM `mllib_gender_data`;
 SELECT * FROM `mllib_channel_data`;
+
+SELECT * FROM `ml_lr_data`;
+SELECT * FROM `ml_dt_data`;
+SELECT * FROM `ml_clustering_data`;
+SELECT * FROM `ml_cf_user_data`;
+SELECT * FROM `ml_cf_item_data`;
 
 ================================================================================
 
