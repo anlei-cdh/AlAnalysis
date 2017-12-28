@@ -324,11 +324,11 @@ UNLOCK TABLES;
 
 LOCK TABLES `ml_cf_user` WRITE;
 INSERT INTO `ml_cf_user` VALUES
-(1,'霍保军','hbj.png'),
-(2,'郭贤','gx.jpg'),
-(3,'李舒燕','lsy.jpg'),
-(4,'商亮','sl.jpg'),
-(5,'韩璐璐','hll.jpg');
+(1,'安雷','al.jpg'),
+(2,'商亮','sl.jpg'),
+(3,'韩璐璐','hll.jpg'),
+(4,'王栋','wd.jpg'),
+(5,'辛颖','xy.jpg');
 UNLOCK TABLES;
 
 LOCK TABLES `ml_cf_item` WRITE;
@@ -337,5 +337,53 @@ INSERT INTO `ml_cf_item` VALUES
 (2,'追龙','zl.jpg'),
 (3,'空天猎','ktl.jpg'),
 (4,'密战','mz.jpg'),
-(5,'悟空传','wkz.jpg');
+(5,'长城','cc.jpg');
+UNLOCK TABLES;
+
+LOCK TABLES `ml_cf_user` WRITE;
+INSERT INTO `ml_cf_user` VALUES
+(11,'吕敬','lj.jpg'),
+(12,'顾雅涤','gyd.jpg'),
+(15,'张伟楠','zwn.jpg'),
+(25,'霍保军','hbj.png'),
+
+(8,'孟晓倩','mxq.jpg'),
+(10,'李舒燕','lsy.jpg'),
+(21,'王鹏','wp.jpg'),
+(28,'李宏伟','lhw.jpg'),
+
+(14,'祈梦','qm.jpg'),
+(22,'卢庚','lg.jpg'),
+(23,'郭贤','gx.jpg'),
+
+(26,'张平','zp.jpg'),
+
+(16,'董旭','dx.jpg'),
+(18,'杨婧怡','yjy.jpg');
+UNLOCK TABLES;
+
+LOCK TABLES `ml_cf_item` WRITE;
+INSERT INTO `ml_cf_item` VALUES
+(22,'傲娇与偏见','amypj.jpg'),
+(62,'明月几时有','myjsy.jpg'),
+(68,'鲛珠传','jzz.jpg'),
+(87,'四海流云','shly.jpg'),
+
+(8,'欢乐喜剧人','hlxjr.jpg'),
+(39,'西游2','xy2.jpg'),
+(83,'速度与激情8','sdyjq8.jpg'),
+(93,'天生不对','tsbd.jpg'),
+
+(18,'侠盗联盟','xdlm.jpg'),
+(51,'黑白迷宫','hbmg.jpg'),
+(75,'逆时营救','nsyj.jpg'),
+(88,'破·局','pj.jpg'),
+
+(29,'拆弹专家','cdzj.jpg'),
+(52,'青禾男高','qhng.jpg'),
+(53,'记忆大师','jyds.jpg'),
+
+(32,'功夫瑜伽','gfyj.jpg'),
+(55,'悟空传','wkz.jpg'),
+(90,'英伦对决','yldj.jpg');
 UNLOCK TABLES;
