@@ -305,8 +305,8 @@ UNLOCK TABLES;
 
 LOCK TABLES `common_gender` WRITE;
 INSERT INTO `common_gender` VALUES
-(0,'男'),
-(1,'女');
+(1,'男'),
+(0,'女');
 UNLOCK TABLES;
 
 LOCK TABLES `common_channel` WRITE;
