@@ -9,7 +9,7 @@ import org.apache.spark.ml.recommendation.ALS
   *
   * CollaborativeFiltering
   */
-object CollaborativeFiltering {
+object CollaborativeFilteringShow {
 
   val count = 5
   case class Rating(userId: Int, movieId: Int, rating: Float, timestamp: Long)
