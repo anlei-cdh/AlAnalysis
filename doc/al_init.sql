@@ -387,3 +387,6 @@ INSERT INTO `ml_cf_item` VALUES
 (55,'悟空传','wkz.jpg'),
 (90,'英伦对决','yldj.jpg');
 UNLOCK TABLES;
+
+UPDATE ml_cf_user SET `name` = '齐洪军',`image` = 'qhj.jpg' WHERE id = 25;
+UPDATE ml_cf_user SET `name` = '王凯茵',`image` = 'wky.jpg' WHERE id = 15;
