@@ -65,24 +65,25 @@ invalidate metadata;
 
 ================================================================================
 
-#Hive MapReduce
+#MySQL
 UPDATE `hive_dimension_data` SET pv = 0,uv = 0,ip = 0 WHERE DAY = '2016-12-07';
 UPDATE `hive_dimension_data` SET time = 0 WHERE DAY = '2016-12-07';
-SELECT * FROM `hive_dimension_data` WHERE `day` = '2016-12-07';
 
-================================================================================
-
-#Storm
 TRUNCATE `storm_dimension_data`;
 TRUNCATE `storm_content_data`;
 TRUNCATE `storm_content_detail`;
 
-flume-ng avro-client -H cdh01 -p 9999 -F /logs/al.log
+#impala-shell
+update al_kudu set count = 29,rate = 3 where id = 2;
 
 ================================================================================
 
+#Storm
+flume-ng avro-client -H cdh01 -p 9999 -F /logs/al.log
+
 #Kudu
-select url,title from al_parquet limit 5;
-update al_parquet set url = 'http://www.baidu.com/';
+select * from al_parquet limit 2;
+update al_parquet set url = 'www.baidu.com';
+
 update al_kudu set count = 40,rate = 10 where id = 2;
-update al_kudu set count = 29,rate = 3 where id = 2;
+show create table al_kudu;
