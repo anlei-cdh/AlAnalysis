@@ -1,7 +1,6 @@
 #MySQL
 UPDATE `hive_dimension_data` SET pv = 0,uv = 0,ip = 0 WHERE DAY = '2016-12-07';
 UPDATE `hive_dimension_data` SET time = 0 WHERE DAY = '2016-12-07';
-UPDATE `dl_poetize_data` SET content = '' WHERE id = 3;
 
 TRUNCATE `storm_dimension_data`;
 TRUNCATE `storm_content_data`;
@@ -9,8 +8,6 @@ TRUNCATE `storm_content_detail`;
 TRUNCATE `dl_classify_data`;
 TRUNCATE `dl_detection_data`;
 
-TRUNCATE `dl_classify_data`;
-TRUNCATE `dl_detection_data`;
 DELETE FROM `dl_poetize_data` WHERE id = 3;
 
 #Kudu
